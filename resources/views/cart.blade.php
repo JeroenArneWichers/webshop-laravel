@@ -4,25 +4,24 @@
 
 @section('content')
 
-    @if (session()->has('success_message'))
-        <div>
-            {{ session()->get('success_message') }}
-        </div>
-        @endif
-
-        @if(count($errors) > 0)
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
 @if (Cart::count() > 0)
 <div class="cart-section container">
     <div>
+            @if (session()->has('success_message'))
+            <div>
+                {{ session()->get('success_message') }}
+            </div>
+            @endif
+    
+            @if(count($errors) > 0)
+            <div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <h1>{{ Cart::count() }} product(s) in your cart</h1>
 
         <div class="cart-table">
@@ -40,7 +39,7 @@
                         <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
-                            <button type="submit" class="cart-options">Remove from cart</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Remove from cart</button>
                         </form>
                     </div>
                     <div>{{ $item->model->price }}</div>
@@ -66,6 +65,10 @@
                     {{-- <span class="cart-totals-total">{{ Cart::total() }}</span> --}}
                 </div>
             </div>
+        </div>
+        <div class="cart-buttons">
+            <a href="{{ route('shop.index') }}" class="btn btn-danger">Continue Shopping</a>
+            <a href="{{ route('checkout.index') }}" class="btn btn-danger">Proceed to Checkout</a>
         </div>
     </div>
 </div>
