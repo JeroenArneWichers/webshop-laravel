@@ -3,14 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Cartalyst\Stripe\Laravel\Facades\Stripe;
-use Cartalyst\Stripe\Exception\CardErrorException;
 
-use App\Http\Requests\CheckoutRequest;
-
-class CheckoutController extends Controller
+class ConfirmationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +13,11 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        return view('checkout');
+        if (!session()->has('success_message'))
+        {
+            return redirect('/');
+        }
+        return view('thankyou');
     }
 
     /**
@@ -38,38 +36,9 @@ class CheckoutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CheckoutRequest $request)
+    public function store(Request $request)
     {
-
-        $contents = Cart::content()->map(function ($item)
-        {
-            return $item->model->slug . ', ';
-        })->values()->toJson();
-
-        try
-        {
-            $charge = Stripe::charges()->create([
-                'amount' => Cart::subtotal(),
-                'currency' => 'EUR',
-                'source' => $request->stripeToken,
-                'description' => 'Order',
-                // 'reciept_email' => $request->email,
-                'metadata' => [
-                    'contents' => $contents,
-                    //'quantity' => Cart::instance('default')->count(),
-                ],
-            ]);
-
-            Cart::instance('default')->destroy();
-
-            // return back()->with('success_message', 'Your payment was succesfull!');
-            return redirect()->route('confirmation.index')->with('success_message', 'Your payment was succesfull!');
-
-        }
-        catch (CardErrorException $e)
-        {
-            return back()->withErrors('Error! ' . $e->getMessage());
-        }
+        //
     }
 
     /**

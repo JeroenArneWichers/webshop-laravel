@@ -19,7 +19,7 @@
                     <input type="hidden" name="id" value="{{ $product->id }}">
                     <input type="hidden" name="name" value="{{ $product->name }}">
                     <input type="hidden" name="price" value="{{ $product->price }}">
-                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">Add to cart</button>
                 </form>
             </div>
             <img src="{{ asset('img/products/'.$product->slug.'.jpg') }}" class="card-img-top" alt="...">

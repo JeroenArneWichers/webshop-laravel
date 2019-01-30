@@ -12,12 +12,13 @@
     <div class="container spacer100">
         <div class="row about-container align-items-center">
             <div class="col-lg-6 content order-lg-1 order-1">
-                <h2 class="title">SALVE CIVIS!</h2>
+                <h2 class="title">SALVE LOREM!</h2>
                 <p>On behalf of the Senate and the People of Rome let me thank you for ordering
                     from the greatest shop of Rome.<p>
                 <p>Please enjoy your purchase and continue eploring our fine site.</p>
-                <button type="button" class="btn btn-danger btn-lg btn-block">Return to shop</button>
-                <button type="button" class="btn btn-danger btn-lg btn-block">Return to main museum page</button>
+                <div class="cart-buttons">
+                    <a href="{{ route('shop.index') }}" class="btn btn-danger btn-lg btn-block">Continue Shopping</a>
+                </div>
             </div>
 
             <div class="col-lg-6 background order-lg-2 order-2">

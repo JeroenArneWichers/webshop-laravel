@@ -28,5 +28,5 @@ Route::get('empty', function ()
 });
 
 
-Route::get('/thankyou', 'PagesController@thankyou');
+Route::get('/thankyou', 'ConfirmationController@index')->name('confirmation.index');
 

@@ -29,7 +29,7 @@
             </ul>
         </div>
     @endif
-    
+
     <div class="row">
         <div class="col-sm-6">
             <div class="card">
@@ -40,32 +40,32 @@
                         <h2>Billing Details</h2>       
                         <div>        
                             <label for="email">Email Address</label>    
-                            <input type="email" class="form-control" id="email" name="email"  required> 
+                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required> 
                         </div>
                         <br>
                         <div>
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name"  required>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
                         </div>
                         <br>
                         <div>
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" name="address"  required>
+                            <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}" required>
                         </div>
                         <br>
                         <div>      
                             <label for="city">City</label>
-                            <input type="text" class="form-control" id="city" name="city"  required>
+                            <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}" required>
                         </div>
                         <br>
                         <div>
                             <label for="province">Province</label>
-                            <input type="text" class="form-control" id="province" name="province"  required>
+                            <input type="text" class="form-control" id="province" name="province" value="{{ old('province') }}" required>
                         </div> 
                         <br>       
                         <div>
                             <label for="postalcode">Postal Code</label>
-                            <input type="text" class="form-control" id="postalcode" name="postalcode"  required>
+                            <input type="text" class="form-control" id="postalcode" name="postalcode" value="{{ old('postalcode') }}" required>
                         </div>
                         <br>
                         <div>
@@ -89,8 +89,7 @@
                             <!-- Used to display form errors -->
                             <div id="card-errors" role="alert"></div>
                         </div>
-                        <div class="spacer"></div>
-                        <button type="submit" id="complete-order" class="button-primary full-width">Complete Order And Pay</button>
+                        <button type="submit" id="complete-order" class="btn-lg btn-block btn btn-danger">Complete Order And Pay</button>
                     </form>
                     
 
@@ -167,7 +166,7 @@ var style = {
 };
 
 // Create an instance of the card Element.
-var card = elements.create('card', {style: style});
+var card = elements.create('card', {style: style, hidePostalCode: true});
 
 // Add an instance of the card Element into the `card-element` <div>.
 card.mount('#card-element');
@@ -187,6 +186,8 @@ var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
 
+  document.getElementById('complete-order').disabled = true;
+
   var options = {
                 name: document.getElementById('name_on_card').value,
                 address_line1: document.getElementById('address').value,
@@ -200,6 +201,9 @@ form.addEventListener('submit', function(event) {
       // Inform the user if there was an error.
       var errorElement = document.getElementById('card-errors');
       errorElement.textContent = result.error.message;
+
+      document.getElementById('complete-order').disabled = false;
+
     } else {
       // Send the token to your server.
       stripeTokenHandler(result.token);
